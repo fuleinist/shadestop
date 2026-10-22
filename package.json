@@ -1,0 +1,24 @@
+{
+  "name": "shadestop",
+  "version": "0.1.0",
+  "description": "Heat-smart commuting: score transit stops and walking legs for shade and heat, suggest cooler departure times",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "shadestop": "src/index.ts"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "demo": "tsx src/index.ts demo",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
