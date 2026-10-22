@@ -28,3 +28,12 @@ Spec-first GSD. Each cycle ends with a commit. Max 10 cycles.
 - After each cycle: `npx tsx --test test/*.test.ts` green.
 - Cycle 6: live dogfood from G:\dev\projects\shadestop against Sydney.
 - Done when: all acceptance criteria in SPEC.md hold.
+
+## Status (cycle 6, 2026-10-23)
+
+- Cycles 1-6 complete. 70 tests green.
+- Live dogfood passed. Open-Meteo forecast is live and correct.
+- GTFS extraction verified against a generated feed.
+- Overpass de is saturated (429/502). osm.ch serves partial data. The
+  pipeline degrades to zero shade with a warning. It never hard-fails.
+- Acceptance criteria in SPEC.md all hold. Tool is done.

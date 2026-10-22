@@ -1,0 +1,109 @@
+{
+  "date": "2026-01-15",
+  "total": 13,
+  "stops": [
+    {
+      "stopId": "o",
+      "name": "Home (Cherrybrook)",
+      "lat": -33.662,
+      "lon": 150.663,
+      "shadeFraction": 0.48,
+      "trees": 6,
+      "shelters": 0,
+      "fountains": 0,
+      "apparentTempC": 24.1,
+      "heatRisk": "medium",
+      "exposureScore": 12
+    },
+    {
+      "stopId": "s1",
+      "name": "Sydney Station",
+      "lat": -33.8724,
+      "lon": 151.2083,
+      "shadeFraction": 0.55,
+      "trees": 5,
+      "shelters": 1,
+      "fountains": 1,
+      "apparentTempC": 24.1,
+      "heatRisk": "medium",
+      "exposureScore": 10
+    },
+    {
+      "stopId": "s2",
+      "name": "Martin Place",
+      "lat": -33.8676,
+      "lon": 151.2076,
+      "shadeFraction": 0.42,
+      "trees": 4,
+      "shelters": 1,
+      "fountains": 0,
+      "apparentTempC": 24.1,
+      "heatRisk": "medium",
+      "exposureScore": 11
+    },
+    {
+      "stopId": "d",
+      "name": "Work (Sydney CBD)",
+      "lat": -33.874,
+      "lon": 151.213,
+      "shadeFraction": 0.08,
+      "trees": 1,
+      "shelters": 0,
+      "fountains": 0,
+      "apparentTempC": 26.2,
+      "heatRisk": "medium",
+      "exposureScore": 22
+    }
+  ],
+  "legs": [
+    {
+      "legIndex": 0,
+      "from": "o",
+      "to": "s1",
+      "mode": "train",
+      "minutes": 45,
+      "exposed": false,
+      "exposureScore": 0
+    },
+    {
+      "legIndex": 1,
+      "from": "s1",
+      "to": "s2",
+      "mode": "walk",
+      "minutes": 8,
+      "exposed": true,
+      "exposureScore": 11
+    },
+    {
+      "legIndex": 2,
+      "from": "s2",
+      "to": "d",
+      "mode": "walk",
+      "minutes": 10,
+      "exposed": true,
+      "exposureScore": 14
+    }
+  ],
+  "best": [
+    {
+      "hour": 5,
+      "score": 0,
+      "apparentTempC": 16
+    },
+    {
+      "hour": 6,
+      "score": 0,
+      "apparentTempC": 18
+    },
+    {
+      "hour": 7,
+      "score": 4,
+      "apparentTempC": 21.1
+    }
+  ],
+  "worst": {
+    "hour": 13,
+    "score": 43,
+    "apparentTempC": 31.1
+  }
+}

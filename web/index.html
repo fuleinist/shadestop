@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>shadestop report</title>
+  <style>
+    :root { color-scheme: light; }
+    body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 900px; padding: 0 1rem; }
+    h1 { font-size: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: .5rem; text-align: left; }
+    th { background: #f2f2f2; }
+    .risk-high { color: #b00020; font-weight: 600; }
+    .risk-medium { color: #b26a00; }
+    .risk-low { color: #1e6b34; }
+    .score-bar { background: #eee; border-radius: 3px; height: 8px; width: 120px; }
+    .score-fill { height: 8px; border-radius: 3px; }
+    .note { color: #555; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <h1>shadestop — heat-smart commute report</h1>
+  <p class="note" id="meta">Loading <code>report.json</code>…</p>
+  <div id="report"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
