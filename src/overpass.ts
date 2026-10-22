@@ -24,9 +24,9 @@ interface OverpassResponse {
 
 // Public Overpass instances, tried in order. A descriptive User-Agent is
 // required (nginx rejects the default Node UA with 406).
-//   de   : full current data, but gets 502 "at capacity" under load.
+//   de    : full current data, but gets 429/502 under load.
 //   osm.ch: fast and reachable, but serves a partial/stale tree dataset,
-//            so treat its asset counts as best-effort.
+//           so treat its asset counts as best-effort.
 // kumi.systems and mail.ru are unreachable from this network (they hang).
 export const OVERPASS_ENDPOINTS = [
   "https://overpass-api.de/api/interpreter",
@@ -38,11 +38,7 @@ export const DEFAULT_USER_AGENT =
 
 // Build the Overpass QL for trees, shelters, and fountains in a box.
 // Radius is approximate because 1 deg of longitude varies with latitude.
-export function shadeQuery(
-  lat: number,
-  lon: number,
-  radiusM = 100,
-): string {
+export function shadeQuery(lat: number, lon: number, radiusM = 100): string {
   const dLat = radiusM / METERS_PER_DEG_LAT;
   const dLon = radiusM / (METERS_PER_DEG_LAT * Math.cos((lat * Math.PI) / 180));
   const w = lat - dLat;
@@ -50,12 +46,12 @@ export function shadeQuery(
   const e = lon - dLon;
   const n = lon + dLon;
   return [
-    '[out:json][timeout:25];',
-    '( nwr["natural"="tree"](' + w + "," + e + "," + s + "," + n + ");",
-    '  nwr["public_transport"="shelter"](' + w + "," + e + "," + s + "," + n + ");",
-    '  nwr["drinking_water"="yes"]["shower"!="yes"](' +
+    "[out:json][timeout:25];",
+    "( nwr[\"natural\"=\"tree\"](" + w + "," + e + "," + s + "," + n + ");",
+    "  nwr[\"public_transport\"=\"shelter\"](" + w + "," + e + "," + s + "," + n + ");",
+    "  nwr[\"drinking_water\"=\"yes\"][\"shower\"!=\"yes\"](" +
       w + "," + e + "," + s + "," + n + ");",
-    '); out center 300;',
+    "); out center 300;",
   ].join("\n");
 }
 
@@ -110,21 +106,27 @@ export async function fetchShadeAssets(
     opts.endpoint ? [opts.endpoint] : (opts.endpoints ?? OVERPASS_ENDPOINTS);
 
   let lastError: unknown;
-  // Each endpoint gets a few attempts with exponential backoff so a
-  // transient "at capacity" (502) on the de instance can clear.
-  const attemptsPerEndpoint = opts.attempts ?? 3;
+  // Fail fast by default: one attempt per endpoint, then rotate. Keeps a
+  // multi-stop commute quick when the primary is saturated. Pass
+  // attempts>1 + retryMs for same-endpoint backoff on flaky links.
+  const attemptsPerEndpoint = opts.attempts ?? 1;
   for (const endpoint of endpoints) {
     for (let attempt = 1; attempt <= attemptsPerEndpoint; attempt++) {
       try {
         return await fetchShadeAssetsFrom(endpoint, query, impl, {
-          timeoutMs: opts.timeoutMs ?? 30000,
+          timeoutMs: opts.timeoutMs ?? 12000,
         });
       } catch (err) {
         lastError = err;
         const msg = err instanceof Error ? err.message : String(err);
-        // Bad queries fail the same everywhere. Stop rotating.
-        if (msg.startsWith("overpass http 4")) throw err;
-        // Backoff before retrying this endpoint: 1.5s, 3s, 6s, ...
+        // Bad queries (4xx except 429) fail the same everywhere. Stop
+        // rotating on those. 429 and 5xx keep rotating to next endpoint.
+        if (
+          msg.startsWith("overpass http 4") &&
+          !msg.startsWith("overpass http 429")
+        ) {
+          throw err;
+        }
         if (attempt < attemptsPerEndpoint) {
           await sleep((opts.retryMs ?? 1500) * 2 ** (attempt - 1));
         }

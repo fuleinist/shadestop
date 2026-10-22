@@ -24,7 +24,6 @@ test("shadeQuery includes all three asset filters and a bbox", () => {
   assert.ok(q.includes('"natural"="tree"'));
   assert.ok(q.includes('"public_transport"="shelter"'));
   assert.ok(q.includes('"drinking_water"="yes"'));
-  // Box corners appear as numbers.
   assert.ok(q.includes("151.21"));
 });
 
@@ -66,18 +65,21 @@ test("fetchShadeAssets parses a mocked successful response", async () => {
   assert.ok(seenData.includes("data="));
 });
 
-test("fetchShadeAssets surfaces HTTP errors", async () => {
-  const fakeFetch: typeof fetch = async () =>
-    new Response("boom", { status: 500 });
+test("fetchShadeAssets surfaces HTTP errors on a single endpoint", async () => {
+  const fakeFetch: typeof fetch = async () => new Response("boom", { status: 500 });
   await assert.rejects(
-    () => fetchShadeAssets(-33.87, 151.21, { fetchImpl: fakeFetch }),
+    () =>
+      fetchShadeAssets(-33.87, 151.21, {
+        endpoint: "https://example.test/interpreter",
+        fetchImpl: fakeFetch,
+      }),
     /overpass http 500/,
   );
 });
 
 test("fetchShadeAssets rotates to the next endpoint on 5xx", async () => {
   let firstUrl = "";
-  const fakeFetch: typeof fetch = async (url, init) => {
+  const fakeFetch: typeof fetch = async (url) => {
     const u = String(url);
     if (u.includes("bad.example")) {
       firstUrl = u;
@@ -97,22 +99,46 @@ test("fetchShadeAssets rotates to the next endpoint on 5xx", async () => {
   assert.ok(firstUrl.includes("bad.example"));
 });
 
-test("fetchShadeAssets stops rotating on 4xx (bad query)", async () => {
-  const fakeFetch: typeof fetch = async () =>
-    new Response("bad query", { status: 400 });
+test("fetchShadeAssets stops rotating on 400 (bad query)", async () => {
+  let calls = 0;
+  const fakeFetch: typeof fetch = async () => {
+    calls++;
+    return new Response("bad query", { status: 400 });
+  };
   await assert.rejects(
     () =>
       fetchShadeAssets(-33.87, 151.21, {
         endpoints: ["https://a.example/i", "https://b.example/i"],
         fetchImpl: fakeFetch,
+        attempts: 1,
       }),
     /overpass http 400/,
   );
+  // A bad query stops immediately: only the first endpoint is tried.
+  assert.equal(calls, 1);
+});
+
+test("fetchShadeAssets keeps rotating on 429 (rate limit)", async () => {
+  let calls = 0;
+  const fakeFetch: typeof fetch = async () => {
+    calls++;
+    return new Response("slow down", { status: 429 });
+  };
+  await assert.rejects(
+    () =>
+      fetchShadeAssets(-33.87, 151.21, {
+        endpoints: ["https://a.example/i", "https://b.example/i"],
+        fetchImpl: fakeFetch,
+        attempts: 1,
+      }),
+    /all overpass endpoints failed/,
+  );
+  // 429 should try both endpoints (it is transient, not a bad query).
+  assert.equal(calls, 2);
 });
 
 test("fetchShadeAssets throws when all endpoints fail", async () => {
-  const fakeFetch: typeof fetch = async () =>
-    new Response("busy", { status: 502 });
+  const fakeFetch: typeof fetch = async () => new Response("busy", { status: 502 });
   await assert.rejects(
     () =>
       fetchShadeAssets(-33.87, 151.21, {

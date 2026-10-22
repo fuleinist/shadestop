@@ -44,6 +44,7 @@ export interface ForecastDay {
   tempMaxC: number;
   tempMinC: number;
   hours: ForecastHour[];
+  utcOffsetSeconds?: number; // from Open-Meteo: hourUtc = localHour - offset/3600
 }
 
 export interface ShadeAssets {

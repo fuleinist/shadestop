@@ -1,0 +1,6 @@
+{
+  "o":  { "assets": { "trees": 6, "shelters": 0, "fountains": 0 }, "shadeFraction": 0.48, "shelterWithin50m": false, "fountainWithin30m": false },
+  "s1": { "assets": { "trees": 5, "shelters": 1, "fountains": 1 }, "shadeFraction": 0.55, "shelterWithin50m": true, "fountainWithin30m": true },
+  "s2": { "assets": { "trees": 4, "shelters": 1, "fountains": 0 }, "shadeFraction": 0.42, "shelterWithin50m": true, "fountainWithin30m": false },
+  "d":  { "assets": { "trees": 1, "shelters": 0, "fountains": 0 }, "shadeFraction": 0.08, "shelterWithin50m": false, "fountainWithin30m": false }
+}

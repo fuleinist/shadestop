@@ -1,0 +1,15 @@
+﻿Sydney morning commute (demo)
+date 2026-10-23   total exposure 0/100
+(mild day: all apparent temps under 26C)
+warnings:
+  - shade data unavailable (overpass http 429); scoring some stops with zero shade
+
+stops (worst first):
+  Home (Cherrybrook)     score   0/100  AT  17.9C  shade 0.00  risk medium
+  Sydney Station         score   0/100  AT  17.9C  shade 0.00  risk medium
+  Martin Place           score   0/100  AT  17.9C  shade 0.00  risk medium
+  Work (Sydney CBD)      score   0/100  AT  19.5C  shade 0.00  risk medium
+
+walking legs (exposed):
+  Sydney Station -> Martin Place  8 min  score 0/100
+  Martin Place -> Work (Sydney CBD)  10 min  score 0/100

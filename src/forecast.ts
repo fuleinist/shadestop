@@ -23,6 +23,7 @@ interface OpenMeteoResponse {
   hourly?: OpenMeteoHourly;
   daily?: OpenMeteoDaily;
   timezone: string;
+  utc_offset_seconds?: number;
 }
 
 function buildUrl(lat: number, lon: number): string {
@@ -67,6 +68,7 @@ export function parseOpenMeteo(json: OpenMeteoResponse): ForecastDay {
     tempMaxC: json.daily?.temperature_2m_max?.[0] ?? 0,
     tempMinC: json.daily?.temperature_2m_min?.[0] ?? 0,
     hours,
+    utcOffsetSeconds: json.utc_offset_seconds,
   };
 }
 

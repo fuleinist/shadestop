@@ -1,0 +1,32 @@
+{
+  "date": "2026-01-15",
+  "tempMaxC": 32.4,
+  "tempMinC": 15.0,
+  "utcOffsetSeconds": 39600,
+  "hours": [
+    { "hour": 0, "tempC": 16, "rhPct": 80, "solarRadiationWm2": 0 },
+    { "hour": 1, "tempC": 15, "rhPct": 82, "solarRadiationWm2": 0 },
+    { "hour": 2, "tempC": 15, "rhPct": 84, "solarRadiationWm2": 0 },
+    { "hour": 3, "tempC": 15, "rhPct": 85, "solarRadiationWm2": 0 },
+    { "hour": 4, "tempC": 16, "rhPct": 85, "solarRadiationWm2": 0 },
+    { "hour": 5, "tempC": 17, "rhPct": 80, "solarRadiationWm2": 0 },
+    { "hour": 6, "tempC": 19, "rhPct": 70, "solarRadiationWm2": 60 },
+    { "hour": 7, "tempC": 22, "rhPct": 60, "solarRadiationWm2": 220 },
+    { "hour": 8, "tempC": 25, "rhPct": 50, "solarRadiationWm2": 450 },
+    { "hour": 9, "tempC": 27, "rhPct": 45, "solarRadiationWm2": 650 },
+    { "hour": 10, "tempC": 29, "rhPct": 40, "solarRadiationWm2": 780 },
+    { "hour": 11, "tempC": 30, "rhPct": 38, "solarRadiationWm2": 820 },
+    { "hour": 12, "tempC": 31, "rhPct": 35, "solarRadiationWm2": 850 },
+    { "hour": 13, "tempC": 32, "rhPct": 33, "solarRadiationWm2": 830 },
+    { "hour": 14, "tempC": 32, "rhPct": 32, "solarRadiationWm2": 760 },
+    { "hour": 15, "tempC": 31, "rhPct": 33, "solarRadiationWm2": 620 },
+    { "hour": 16, "tempC": 30, "rhPct": 36, "solarRadiationWm2": 420 },
+    { "hour": 17, "tempC": 29, "rhPct": 40, "solarRadiationWm2": 220 },
+    { "hour": 18, "tempC": 28, "rhPct": 45, "solarRadiationWm2": 60 },
+    { "hour": 19, "tempC": 27, "rhPct": 50, "solarRadiationWm2": 0 },
+    { "hour": 20, "tempC": 26, "rhPct": 55, "solarRadiationWm2": 0 },
+    { "hour": 21, "tempC": 25, "rhPct": 60, "solarRadiationWm2": 0 },
+    { "hour": 22, "tempC": 24, "rhPct": 65, "solarRadiationWm2": 0 },
+    { "hour": 23, "tempC": 23, "rhPct": 70, "solarRadiationWm2": 0 }
+  ]
+}
