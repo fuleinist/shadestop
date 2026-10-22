@@ -71,10 +71,19 @@ All commands print human-readable output. Machine output uses `--json`.
 
 ### Apparent temperature
 
-Use the BOM-style Apparent Temperature:
+Use the BOM Apparent Temperature formula with Magnus vapor pressure:
 
 ```
-AT = T - 0.056 * (100 - RH) * (T - 14)
+e  = (RH/100) * 6.105 * exp(17.27*T / (T + 237.7))   # hPa
+AT = T + 0.33*e - 0.70*wind - 4.00                    # wind default 3 m/s
+```
+
+Sanity checks: 30C/50%RH -> ~30.9C, 25C/50%RH -> ~24.1C, 35C/80%RH -> ~43.7C.
+
+### Heat base
+
+```
+heatBase = clamp((AT - 20) / 20, 0, 1)   # 20C -> 0, 40C+ -> 1
 ```
 
 ### Shade fraction
