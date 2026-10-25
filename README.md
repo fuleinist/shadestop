@@ -1,3 +1,5 @@
+<img src="docs/logo.png" alt="shadestop logo" width="180" />
+
 # shadestop
 
 shadestop is a heat-smart commuting tool. It scores transit stops and walking
@@ -6,6 +8,15 @@ routes.
 
 It uses free public data: Open-Meteo weather, OpenStreetMap shade assets, and
 GTFS stop feeds. No API keys. No paid services.
+
+## Screenshots
+
+The static web view renders a stop-level score report from `web/report.json`.
+
+<img src="docs/screenshots/report-desktop.png" alt="shadestop web report" width="720" />
+
+*Web report — exposure scores and heat risk per stop from the bundled demo data (2026-01-15, total exposure 13/100). Run it yourself:
+`npx tsx src/index.ts export --commute plan.json --format json --out web/report.json`, then serve the repo root and open `/web/`.*
 
 ## Install
 
